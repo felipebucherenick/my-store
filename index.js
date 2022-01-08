@@ -1,14 +1,11 @@
 const express = require('express');
+const routerApi = require('./routes');
 const app = express();
-const port = 3005;
+const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello Server 3005 working');
-});
+app.use(express.json());
 
-app.get('/json', (req, res) => {
-  res.json({ name: 'apple', price: 350 });
-});
+routerApi(app);
 
 app.listen(port, () => {
   console.log(`My port: ${port}`);
