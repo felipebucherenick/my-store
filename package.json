@@ -1,30 +1,31 @@
 {
-  "name": "my-store",
+  "name": "yard-sale-backend",
   "version": "1.0.0",
-  "description": "API Rest for yard-sale with Express(Node)",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "build": "node index.js",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "lint": "eslint"
   },
-  "keywords": [
-    "Node",
-    "Express",
-    "API"
-  ],
+  "keywords": [],
   "author": "Felipe Bucherenick",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "faker": "^5.5.3",
-    "nodemon": "^2.0.15",
-    "prettier": "^2.5.1"
+    "eslint-plugin-prettier": "^3.4.1",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
     "@hapi/boom": "^9.1.4",
-    "express": "^4.17.2"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "faker": "^5.5.3",
+    "joi": "^17.4.2"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
