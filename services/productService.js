@@ -1,7 +1,7 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 
-class ProductsService {
+class ProductService {
   constructor() {
     this.products = [];
     this.generate();
@@ -13,9 +13,10 @@ class ProductsService {
       this.products.push({
         id: faker.datatype.uuid(),
         name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price()),
+        description: faker.lorem.sentences(3),
         img: faker.image.imageUrl(),
-        isBlock: faker.datatype.boolean(),
+        price: parseInt(faker.commerce.price()),
+        category: faker.lorem.words(1),
       });
     }
   }
@@ -71,4 +72,4 @@ class ProductsService {
   }
 }
 
-module.exports = ProductsService;
+module.exports = ProductService;
