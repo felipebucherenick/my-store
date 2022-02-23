@@ -57,7 +57,7 @@ router.patch(
       const { id } = req.params;
       const body = req.body;
       const product = await service.update(id, body);
-      res.json(product);
+      res.status(201).json(product);
     } catch (error) {
       next(error);
     }
@@ -71,7 +71,7 @@ router.delete(
     try {
       const { id } = req.params;
       const rta = await service.delete(id);
-      res.json(rta);
+      res.status(201).json(rta);
     } catch (error) {
       next(error);
     }

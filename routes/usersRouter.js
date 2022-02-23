@@ -34,4 +34,48 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get(
+  '/:id',
+  validatorHandler(findUserSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const user = await service.findOne(id);
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.patch(
+  '/:id',
+  validatorHandler(findUserSchema, 'params'),
+  validatorHandler(updateUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const user = await service.update(id, body);
+      res.status(201).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete(
+  '/:id',
+  validatorHandler(findUserSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const user = await service.delete(id);
+      res.status(201).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;

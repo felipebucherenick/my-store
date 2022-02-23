@@ -1,5 +1,5 @@
 const faker = require('faker');
-/* const boom = require('@hapi/boom'); */
+const boom = require('@hapi/boom');
 
 function createPhoneNumber() {
   function getRandomInt(min, max) {
@@ -14,14 +14,14 @@ function createPhoneNumber() {
 
 class UserService {
   constructor() {
-    this.products = [];
+    this.users = [];
     this.generate();
   }
 
   generate() {
     const limit = 100;
     for (let i = 0; i < limit; i++) {
-      this.products.push({
+      this.users.push({
         id: faker.datatype.uuid(),
         name: faker.name.firstName(),
         email: faker.internet.email(),
@@ -34,20 +34,51 @@ class UserService {
   }
 
   async create(data) {
-    const newProduct = {
+    const newUser = {
       id: faker.datatype.uuid(),
       ...data,
     };
-    this.products.push(newProduct);
-    return newProduct;
+    this.products.push(newUser);
+    return newUser;
   }
 
   async find() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.products);
+        resolve(this.users);
       }, 3000);
     });
+  }
+
+  async findOne(id) {
+    const user = this.users.find((user) => id === user.id);
+    if (!user) {
+      throw boom.notFound('User not found');
+    }
+    return user;
+  }
+
+  async update(id, changes) {
+    const index = this.users.findIndex((user) => id === user.id);
+    if (index === -1) {
+      throw boom.notFound('User not found');
+    }
+    const user = this.users[index];
+    this.users[index] = {
+      ...user,
+      ...changes,
+    };
+    return this.users[index];
+  }
+
+  async delete(id) {
+    const index = this.users.findIndex((user) => id === user.id);
+    if (index === -1) {
+      throw boom.notFound('User not fund');
+    }
+    const deletedUser = this.users[index];
+    this.users.splice(index, 1);
+    return deletedUser;
   }
 }
 
