@@ -1,5 +1,6 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
+const pool = require('../libs/postgresPool');
 
 function createPhoneNumber() {
   function getRandomInt(min, max) {
@@ -16,6 +17,8 @@ class UserService {
   constructor() {
     this.users = [];
     this.generate();
+    this.pool = pool;
+    this.pool.on('error', (err) => console.log(err));
   }
 
   generate() {
@@ -43,11 +46,8 @@ class UserService {
   }
 
   async find() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(this.users);
-      }, 3000);
-    });
+    const res = await this.pool.query('SELECT * FROM tasks');
+    return res.rows;
   }
 
   async findOne(id) {
