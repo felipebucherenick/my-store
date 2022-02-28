@@ -1,6 +1,6 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
-const pool = require('../libs/postgresPool');
+const sequelize = require('../libs/sequelize');
 
 function createPhoneNumber() {
   function getRandomInt(min, max) {
@@ -17,8 +17,6 @@ class UserService {
   constructor() {
     this.users = [];
     this.generate();
-    this.pool = pool;
-    this.pool.on('error', (err) => console.log(err));
   }
 
   generate() {
@@ -46,8 +44,8 @@ class UserService {
   }
 
   async find() {
-    const res = await this.pool.query('SELECT * FROM tasks');
-    return res.rows;
+    const [data] = await sequelize.query('SELECT * FROM tasks');
+    return data;
   }
 
   async findOne(id) {
