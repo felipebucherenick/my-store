@@ -1,6 +1,7 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 
 function createPhoneNumber() {
   function getRandomInt(min, max) {
@@ -44,7 +45,7 @@ class UserService {
   }
 
   async find() {
-    const [data] = await sequelize.query('SELECT * FROM tasks');
+    const data = await models.User.findAll();
     return data;
   }
 
