@@ -10,9 +10,9 @@ const category = joi.string().min(3).max(15);
 const createProductSchema = joi.object({
   name: name.required(),
   description: description.required(),
-  img: img.required(),
+  img: img,
   price: price.required(),
-  category: category.required(),
+  category: category,
 });
 
 const findProductSchema = joi.object({
