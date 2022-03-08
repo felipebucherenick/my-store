@@ -26,7 +26,7 @@ class ProductService {
   }
 
   async update(id, changes) {
-    const product = await models.findOne(id);
+    const product = await this.findOne(id);
     if (!product) {
       throw boom.notFound('product not found');
     }
@@ -35,7 +35,7 @@ class ProductService {
   }
 
   async delete(id) {
-    const product = await models.findOne(id);
+    const product = await this.findOne(id);
     if (!product) {
       throw boom.notFound('product not found');
     }
