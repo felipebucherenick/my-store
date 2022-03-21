@@ -8,7 +8,7 @@ const {
 } = require('../schemas/costumerSchema');
 
 const router = express.Router();
-const service = CustomerService();
+const service = new CustomerService();
 
 router.post(
   '/',

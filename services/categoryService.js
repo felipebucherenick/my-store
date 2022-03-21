@@ -1,42 +1,26 @@
-const faker = require('faker');
 const { boom } = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 
 class CategoryService {
-  constructor() {
-    this.categories = [];
-    this.generate();
-  }
-
-  generate() {
-    const limit = 5;
-    for (let i = 0; i < limit; i++) {
-      this.categories.push({
-        id: faker.datatype.uuid(),
-        name: faker.commerce.productName(),
-        image: faker.image.imageUrl(),
-      });
-    }
-  }
+  constructor() {}
 
   async create(data) {
-    const newCategory = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.categories.push(newCategory);
+    const newCategory = await models.Category.create(data);
     return newCategory;
   }
 
   async find() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.categories);
+        resolve(models.Category.findAll());
       }, 3000);
     });
   }
 
   async findOne(id) {
-    const category = this.categories.find((category) => id === category.id);
+    const category = await models.Category.findByPk(id, {
+      include: ['products'],
+    });
     if (!category) {
       throw boom.notFound('Category not found');
     }
@@ -44,26 +28,22 @@ class CategoryService {
   }
 
   async update(id, changes) {
-    const index = this.categories.findIndex((category) => id === category.id);
-    if (index === -1) {
+    const category = await this.findOne(id);
+    if (!category) {
       throw boom.notFound('Category not found');
     }
-    const category = this.categories[index];
-    this.categories[index] = {
-      ...category,
-      ...changes,
-    };
-    return this.categories[index];
+    const updatedCategory = await models.Category.update(changes);
+
+    return updatedCategory;
   }
 
   async delete(id) {
-    const index = this.categories.findIndex((category) => id === category.id);
-    if (index === -1) {
+    const category = await this.findOne(id);
+    if (!category) {
       throw boom.notFound('Category not found');
     }
-    const deletedCategory = this.categories[index];
-    this.categories.splice(index, 1);
-    return deletedCategory;
+    await category.destroy();
+    return { id };
   }
 }
 
