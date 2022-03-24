@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const routerApi = require('./routes');
 const cors = require('cors');
+const checkApiKey = require('./middlewares/checkApiKey');
 const port = process.env.PORT || 3000;
 
 const {
@@ -27,6 +28,10 @@ app.use(cors(options));
 
 app.get('/', (req, res) => {
   res.send('Yard Sale API');
+});
+
+app.get('/new-route', checkApiKey, (req, res) => {
+  res.send('Hello I am a new route');
 });
 
 routerApi(app);
